@@ -1,8 +1,6 @@
 package com.dc.menu.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -12,8 +10,6 @@ import java.util.List;
  * @Date 2020-03-31
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class MenuVO {
     private int code;
     private String msg;

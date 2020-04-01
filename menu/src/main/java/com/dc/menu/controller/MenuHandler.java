@@ -2,7 +2,9 @@ package com.dc.menu.controller;
 
 import com.dc.menu.entity.Menu;
 import com.dc.menu.entity.MenuVO;
+import com.dc.menu.entity.Type;
 import com.dc.menu.repository.MenuRepository;
+import com.dc.menu.repository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +31,9 @@ public class MenuHandler {
     @Autowired
     private MenuRepository menuRepository;
 
+    @Autowired
+    private TypeRepository typeRepository;
+
     @GetMapping("/index")
     public String index() {
         return "menu的端口：" + port;
@@ -36,8 +41,13 @@ public class MenuHandler {
 
     @GetMapping("/findAll/{page}/{limit}")
     public MenuVO findAll(@PathVariable("page") int page, @PathVariable("limit") int limit) {
+        MenuVO menuVO = new MenuVO();
+        menuVO.setCode(0);
+        menuVO.setMsg("");
+        menuVO.setCount(menuRepository.count());
         List<Menu> menus = menuRepository.findAll(page, limit);
-        return new MenuVO(0, "", 100, menus);
+        menuVO.setData(menus);
+        return menuVO;
     }
 
     @PostMapping("/save")
@@ -58,6 +68,12 @@ public class MenuHandler {
     @DeleteMapping("/deleteById/{id}")
     public void deleteById(@PathVariable("id") long id) {
         menuRepository.deleteById(id);
+    }
+
+    @GetMapping("/findAllTypes")
+    public List<Type> findAddTypes(){
+        List<Type> types = typeRepository.findAll();
+        return types;
     }
 
 }
